@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from models.model import User
+from models.model import UserInfo
 
 
 router_user = APIRouter(prefix="/user")
@@ -21,7 +21,7 @@ async def get_user(item_id: int) -> dict:
 
 
 @router_user.post("/add_user")
-async def add_user(data: User) -> str:
+async def add_user(data: UserInfo) -> str:
     """
     Добавление пользователя в базу данных.
 
@@ -41,7 +41,7 @@ async def add_user(data: User) -> str:
 
 
 @router_user.put("/update_user/{user_id}")
-async def update_user(user_id: int, data: User) -> str:
+async def update_user(user_id: int, data: UserInfo) -> str:
     """
     Обновление информации о пользователе в базе данных.
 
