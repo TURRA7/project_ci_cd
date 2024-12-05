@@ -1,9 +1,18 @@
 import asyncio
 import uvicorn
+import logging
 from fastapi import FastAPI
 
 from routers.router import router_user
 from database.FDataBase import create_tables
+
+
+logging.basicConfig(
+    filename="project.log",
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 app = FastAPI()
