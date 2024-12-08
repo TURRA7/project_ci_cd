@@ -1,3 +1,10 @@
+"""
+Модели валидации данных pydantic.
+
+Classes:
+
+    UserInfo: Пользователь
+"""
 from pydantic import BaseModel, EmailStr
 
 
