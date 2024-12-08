@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI
 
 from routers.router import router_user
-from database.FDataBase import create_tables
+from database.FDataBase import create_tables, drop_all_tables
 
 
 logging.basicConfig(
@@ -20,7 +20,10 @@ app.include_router(router=router_user)
 
 
 async def main() -> None:
-    await create_tables()
+    try:
+        await create_tables()
+    except Exception as ex:
+        logger.debug(ex)
 
 
 if __name__ == "__main__":

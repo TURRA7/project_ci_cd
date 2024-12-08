@@ -56,7 +56,7 @@ class User(Base):
     """
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     age = Column(Integer, nullable=False, default=0)
@@ -67,13 +67,13 @@ class User(Base):
 async def create_tables() -> None:
     """Функция создания таблиц."""
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all())
+        await conn.run_sync(Base.metadata.create_all)
 
 
 async def drop_all_tables() -> None:
     """Функция удаления всех таблиц."""
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all())
+        await conn.run_sync(Base.metadata.drop_all)
 
 
 async def get_session() -> AsyncGenerator[AsyncGenerator,
@@ -99,11 +99,11 @@ async def get_one_user(user_id: int,
         если пользователь присутствует в базе, иначе строку
         'Пользователя нет в базе!'
     """
-    result = await session.scalars(
-        select(User).filter_by(id=user_id)
+    result = await session.execute(
+        select(User).where(User.id == user_id)
     )
-    if result:
-        user = result.first()
+    user = result.scalar_one_or_none()
+    if isinstance(user, User):
         return {"id": user.id,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
@@ -217,11 +217,11 @@ async def delete_one_user(user_id: int,
         Возвращает словарь с ключём 'message' - сообщение об успехе
         или провале операции, а так же 'status_code'.
     """
-    result = await session.scalars(
+    result = await session.execute(
         select(User).filter_by(id=user_id)
     )
-    if result is not None:
-        user = result.first()
+    user = result.scalar_one_or_none()
+    if isinstance(user, User):
         await session.delete(user)
         await session.commit()
         return {"message": f"Пользователь с ID: {user_id} удалён!",

@@ -43,13 +43,16 @@ async def get_user(user_id: int,
         }
     """
     user = await get_one_user(user_id=user_id, session=session)
-    return {"message": user['message'], "status_code": user["status_code"]}
+    if isinstance(user, dict):
+        return {"message": user, "status_code": 200}
+    else:
+        return {"message": user, "status_code": 404}
 
 
 @router_user.post("/add_user")
 async def add_user(data: UserInfo,
                    session: AsyncSession = Depends(get_session)
-                   ) -> str:
+                   ) -> dict:
     """
     Добавление пользователя в базу данных.
 
@@ -70,8 +73,8 @@ async def add_user(data: UserInfo,
         }
     """
     new_user = await add_one_user(first_name=data.first_name,
-                                  last_name=data.last_name, age=data.age,
-                                  salary=data.salary, email=data.email,
+                                  last_name=data.last_name, age=int(data.age),
+                                  salary=float(data.salary), email=data.email,
                                   session=session)
     return {"message": new_user['message'],
             "status_code": new_user["status_code"]}
@@ -80,7 +83,7 @@ async def add_user(data: UserInfo,
 @router_user.put("/update_user/{user_id}")
 async def update_user(user_id: int, data: UserInfo,
                       session: AsyncSession = Depends(get_session)
-                      ) -> str:
+                      ) -> dict:
     """
     Обновление информации о пользователе в базе данных.
 
@@ -112,7 +115,7 @@ async def update_user(user_id: int, data: UserInfo,
 @router_user.delete("/delete_user/{user_id}")
 async def delete_user(user_id: int,
                       session: AsyncSession = Depends(get_session)
-                      ) -> str:
+                      ) -> dict:
     """
     Удаление пользователя.
 

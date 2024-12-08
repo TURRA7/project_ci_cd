@@ -1,0 +1,40 @@
+2024-12-08 10:42:42,094 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:47:42,565 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:47:53,250 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:48:49,060 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:48:49,622 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:50:17,168 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 10:50:17,724 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:18:41,634 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:18:41,674 - __main__ - DEBUG - (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DependentObjectsStillExistError'>: cannot drop table users because other objects depend on it
+DETAIL:  constraint shopping_cart_user_id_fkey on table shopping_cart depends on table users
+constraint orders_user_id_fkey on table orders depends on table users
+constraint balances_user_id_fkey on table balances depends on table users
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+[SQL: 
+DROP TABLE users]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2024-12-08 11:18:42,221 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:52:12,455 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:52:13,678 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:52:14,246 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:57:06,323 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:57:11,678 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:57:12,248 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 11:57:14,807 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:00:17,952 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:00:19,449 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:00:33,707 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:00:41,382 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:03:17,487 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:03:20,301 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:05:14,497 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:05:15,128 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:06:11,738 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:09:08,548 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:09:19,634 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:09:20,263 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 1
+2024-12-08 12:10:04,053 - asyncio - DEBUG - Using selector: EpollSelector
+2024-12-08 12:11:19,926 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 2
+2024-12-08 12:11:27,149 - database.FDataBase - INFO - Попытка получения несущуствующего пользователя ID: 2
+2024-12-08 12:11:42,140 - asyncio - DEBUG - Using selector: EpollSelector
