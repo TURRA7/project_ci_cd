@@ -1,3 +1,17 @@
+"""
+Обработчики routers приложения.
+
+Args:
+
+    router_user: Роутеры пути /user
+
+Func:
+
+    get_user: Получение инфо о пользователе из базы
+    add_user: Добавление пользователя в базу
+    update_user: Изменение информации о пользователе
+    delete_user: Удаление пользователя из базы данных
+"""
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
