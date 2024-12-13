@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI
 
 from app.routers.router import router_user
-from app.database.FDataBase import create_tables, drop_all_tables
+from app.database.FDataBase import create_tables
 
 
 logging.basicConfig(
