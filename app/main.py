@@ -15,17 +15,18 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-app = FastAPI()
+async def lifespan(app: FastAPI):
+    try:
+        # Здесь выполняем асинхронную инициализацию
+        await create_tables()
+        yield
+    except Exception as ex:
+        logger.error(f"Error during table creation: {ex}")
+        raise
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(router=router_user)
 
 
-async def main() -> None:
-    try:
-        await create_tables()
-    except Exception as ex:
-        logger.debug(ex)
-
-
 if __name__ == "__main__":
-    asyncio.run(main())
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

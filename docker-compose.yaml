@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_main
+    environment:
+      POSTGRES_USER: # Пользователь PostgreSQL
+      POSTGRES_PASSWORD: # Пароль PostgreSQL
+      POSTGRES_DB: # Название основной базы данных PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - project_ci_cd
+  
+  db_test:
+    image: postgres:15
+    container_name: postgres_test
+    environment:
+      POSTGRES_USER: # Пользователь тестовой PostgreSQL
+      POSTGRES_PASSWORD: # Пароль тестовой PostgreSQL
+      POSTGRES_DB: # Название тестовой базы данных PostgreSQL
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data_test
+    ports:
+      - "5433:5432"
+    networks:
+      - project_ci_cd
+    
+  app:
+    build:
+      context: .
+    command: /app/wait-for-it.sh postgres:5432 -- uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/app
+    environment:
+      PYTHONPATH: /app
+      DB_USER: # Пользователь PostgreSQL
+      DB_PASS: # Пароль PostgreSQL
+      DB_HOST: db
+      DB_NAME: # Название основной базы данных PostgreSQL
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - project_ci_cd
+  
+  tests:
+    build:
+      context: .
+    command: ["./wait-for-it.sh", "db_test:5432", "--", "pytest", "tests/"]
+    volumes:
+      - .:/app
+    environment:
+      TEST_DB_USER: # Пользователь тестовой PostgreSQL
+      TEST_DB_PASS: # Пароль тестовой PostgreSQL
+      TEST_DB_HOST: db_test
+      TEST_DB_NAME: # Название тестовой базы данных PostgreSQL
+    depends_on:
+      - db_test
+      - app
+    networks:
+      - project_ci_cd
+  
+volumes:
+  postgres_data:
+  postgres_data_test:
+
+networks:
+  project_ci_cd:
