@@ -37,7 +37,6 @@ services:
 
 volumes:
   postgres_data:
-  postgres_data_test:
 
 networks:
   project_ci_cd:
