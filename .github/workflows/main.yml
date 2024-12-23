@@ -39,3 +39,22 @@ jobs:
           TEST_DB_HOST: 127.0.0.1
           TEST_DB_NAME: test_postgres
         run: pytest tests/ --maxfail=1 --disable-warnings
+  build:
+    needs: project_testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Composse and build + run
+        run: |
+          docker-compose up --build -d
+      
+      - name: Check containers logs
+        run: |
+          docker-compose logs
+      
+      
+      
+      
+
