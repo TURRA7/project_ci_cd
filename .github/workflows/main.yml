@@ -7,9 +7,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: test_777
-          POSTGRES_PASSWORD: test_777
-          POSTGRES_DB: test_postgres
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.TEST_POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
@@ -34,10 +34,10 @@ jobs:
 
       - name: Run tests
         env:
-          TEST_DB_USER: test_777
-          TEST_DB_PASS: test_777
+          TEST_DB_USER: ${{ secrets.POSTGRES_USER }}
+          TEST_DB_PASS: ${{ secrets.POSTGRES_PASSWORD }}
           TEST_DB_HOST: 127.0.0.1
-          TEST_DB_NAME: test_postgres
+          TEST_DB_NAME: ${{ secrets.TEST_POSTGRES_DB }}
         run: pytest tests/ --maxfail=1 --disable-warnings
   build:
     needs: project_testing
