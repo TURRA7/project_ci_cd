@@ -1,0 +1,9 @@
+name: CI/CD test_project
+on: workflow_dispatch
+jobs:
+  project_testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print to console
+        run: echo Hello GH Actions!
+  
