@@ -14,20 +14,6 @@ services:
       - "5432:5432"
     networks:
       - project_ci_cd
-  
-  db_test:
-    image: postgres:15
-    container_name: postgres_test
-    environment:
-      POSTGRES_USER: test_777 # Пользователь тестовой PostgreSQL
-      POSTGRES_PASSWORD: test_777 # Пароль тестовой PostgreSQL
-      POSTGRES_DB: test_postgres # Название тестовой базы данных PostgreSQL
-    volumes:
-      - postgres_data_test:/var/lib/postgresql/data_test
-    ports:
-      - "5433:5432"
-    networks:
-      - project_ci_cd
     
   app:
     build:
@@ -48,23 +34,7 @@ services:
     networks:
       - project_ci_cd
   
-  tests:
-    build:
-      context: .
-    command: ["./wait-for-it.sh", "db_test:5432", "--", "pytest", "tests/"]
-    volumes:
-      - .:/app
-    environment:
-      TEST_DB_USER: test_777 # Пользователь тестовой PostgreSQL
-      TEST_DB_PASS: test_777 # Пароль тестовой PostgreSQL
-      TEST_DB_HOST: db_test
-      TEST_DB_NAME: test_postgres # Название тестовой базы данных PostgreSQL
-    depends_on:
-      - db_test
-      - app
-    networks:
-      - project_ci_cd
-  
+
 volumes:
   postgres_data:
   postgres_data_test:
