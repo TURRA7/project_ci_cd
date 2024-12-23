@@ -5,9 +5,9 @@ services:
     image: postgres:15
     container_name: postgres_main
     environment:
-      POSTGRES_USER: # Пользователь PostgreSQL
-      POSTGRES_PASSWORD: # Пароль PostgreSQL
-      POSTGRES_DB: # Название основной базы данных PostgreSQL
+      POSTGRES_USER: test_777 # Пользователь PostgreSQL
+      POSTGRES_PASSWORD: test_777 # Пароль PostgreSQL
+      POSTGRES_DB: postgres # Название основной базы данных PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -19,9 +19,9 @@ services:
     image: postgres:15
     container_name: postgres_test
     environment:
-      POSTGRES_USER: # Пользователь тестовой PostgreSQL
-      POSTGRES_PASSWORD: # Пароль тестовой PostgreSQL
-      POSTGRES_DB: # Название тестовой базы данных PostgreSQL
+      POSTGRES_USER: test_777 # Пользователь тестовой PostgreSQL
+      POSTGRES_PASSWORD: test_777 # Пароль тестовой PostgreSQL
+      POSTGRES_DB: test_postgres # Название тестовой базы данных PostgreSQL
     volumes:
       - postgres_data_test:/var/lib/postgresql/data_test
     ports:
@@ -37,10 +37,10 @@ services:
       - .:/app
     environment:
       PYTHONPATH: /app
-      DB_USER: # Пользователь PostgreSQL
-      DB_PASS: # Пароль PostgreSQL
+      DB_USER: test_777 # Пользователь PostgreSQL
+      DB_PASS: test_777 # Пароль PostgreSQL
       DB_HOST: db
-      DB_NAME: # Название основной базы данных PostgreSQL
+      DB_NAME: postgres # Название основной базы данных PostgreSQL
     depends_on:
       - db
     ports:
@@ -55,10 +55,10 @@ services:
     volumes:
       - .:/app
     environment:
-      TEST_DB_USER: # Пользователь тестовой PostgreSQL
-      TEST_DB_PASS: # Пароль тестовой PostgreSQL
+      TEST_DB_USER: test_777 # Пользователь тестовой PostgreSQL
+      TEST_DB_PASS: test_777 # Пароль тестовой PostgreSQL
       TEST_DB_HOST: db_test
-      TEST_DB_NAME: # Название тестовой базы данных PostgreSQL
+      TEST_DB_NAME: test_postgres # Название тестовой базы данных PostgreSQL
     depends_on:
       - db_test
       - app
