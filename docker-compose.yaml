@@ -33,7 +33,6 @@ services:
       - "8000:8000"
     networks:
       - project_ci_cd
-  
 
 volumes:
   postgres_data:

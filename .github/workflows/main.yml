@@ -1,0 +1,41 @@
+name: CI/CD test_project
+on: workflow_dispatch
+jobs:
+  project_testing:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test_777
+          POSTGRES_PASSWORD: test_777
+          POSTGRES_DB: test_postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12.3
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          TEST_DB_USER: test_777
+          TEST_DB_PASS: test_777
+          TEST_DB_HOST: 127.0.0.1
+          TEST_DB_NAME: test_postgres
+        run: pytest tests/ --maxfail=1 --disable-warnings
