@@ -23,7 +23,7 @@ jobs:
       - name: Run linting
         run: flake8 .
     
-  project_linting:
+  project_testing:
     runs-on: ubuntu-latest
     services:
       postgres:
