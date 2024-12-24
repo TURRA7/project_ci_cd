@@ -67,19 +67,27 @@ jobs:
     needs: project_testing
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Docker Compose and build + run
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker.io
-          docker compose up --build -d
-
+          sudo apt-get install -y docker-compose
+          
+      - name: Set environment variables
+        run: |
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> $GITHUB_ENV
+      
+      - name: Set up Docker Composse and build + run
+        run: |
+          docker-compose up --build -d
+      
       - name: Check containers logs
         run: |
-          docker compose logs
-
-      - name: Stop and remove containers
-        run: |
-          docker compose down
+          docker-compose logs
       
       
       
