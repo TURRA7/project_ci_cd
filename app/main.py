@@ -1,4 +1,4 @@
-import asyncio
+"""Исполняющий файл проекта."""
 import uvicorn
 import logging
 from fastapi import FastAPI

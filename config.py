@@ -39,4 +39,4 @@ TEST_DB_PASS = os.environ.get("TEST_DB_PASS")
 TEST_DB_HOST = os.environ.get("TEST_DB_HOST")
 TEST_DB_NAME = os.environ.get("TEST_DB_NAME")
 
-DATABASE_TEST_URI = f"postgresql+asyncpg://{TEST_DB_USER}:{TEST_DB_PASS}@{TEST_DB_HOST}/{TEST_DB_NAME}"
+DATABASE_TEST_URI = f"postgresql+asyncpg://{TEST_DB_USER}:{TEST_DB_PASS}@{TEST_DB_HOST}/{TEST_DB_NAME}" # noqa: E501
