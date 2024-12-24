@@ -24,6 +24,7 @@ jobs:
         run: flake8 .
     
   project_testing:
+    needs: project_linting
     runs-on: ubuntu-latest
     services:
       postgres:
