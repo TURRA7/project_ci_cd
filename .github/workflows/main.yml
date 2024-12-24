@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  project_linting:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,16 +15,28 @@ jobs:
         with:
           python-version: 3.12.3
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-python-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-python-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-       - name: Run linting
+  project_linting:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run linting
         run: flake8 .
     
   project_testing:
-    needs: project_linting
+    needs: setup
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -42,19 +54,6 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.12.3
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
       - name: Run tests
         env:
           TEST_DB_USER: ${{ secrets.POSTGRES_USER }}
@@ -62,31 +61,24 @@ jobs:
           TEST_DB_HOST: 127.0.0.1
           TEST_DB_NAME: ${{ secrets.TEST_POSTGRES_DB }}
         run: pytest tests/ --maxfail=1 --disable-warnings
+
   build:
     needs: project_testing
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Install Docker Compose
+      - name: Set up Docker Compose and build + run
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose
-          
-      - name: Set environment variables
-        run: |
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> $GITHUB_ENV
-      
-      - name: Set up Docker Composse and build + run
-        run: |
-          docker-compose up --build -d
-      
+          sudo apt-get install -y docker.io
+          docker compose up --build -d
+
       - name: Check containers logs
         run: |
-          docker-compose logs
+          docker compose logs
+
+      - name: Stop and remove containers
+        run: |
+          docker compose down
       
       
       
