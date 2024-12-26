@@ -90,8 +90,8 @@ jobs:
           docker-compose logs
       
       - name: Removing Docker traces
-          run: |
-            docker container prune -f
-            docker image prune -af
+        run: |
+          docker container prune -f
+          docker image prune -af
       
 
